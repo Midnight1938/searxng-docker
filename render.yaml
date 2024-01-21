@@ -1,0 +1,49 @@
+services:
+  - type: web
+    name: caddy
+    buildCommand: null
+    startCommand: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+    envVars:
+      - key: SEARXNG_HOSTNAME
+        fromDatabase:
+          name: your-database-name
+          property: SEARXNG_HOSTNAME
+      - key: SEARXNG_TLS
+        fromDatabase:
+          name: your-database-name
+          property: LETSENCRYPT_EMAIL
+    healthCheckPath: /
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 10
+
+  - type: web
+    name: searxng
+    buildCommand: null
+    startCommand: searxng
+    envVars:
+      - key: SEARXNG_BASE_URL
+        fromDatabase:
+          name: your-database-name
+          property: SEARXNG_BASE_URL
+    healthCheckPath: /
+
+  - type: web
+    name: redis
+    buildCommand: null
+    startCommand: redis-server --save 30 1 --loglevel warning
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 10
+
+databases:
+  - name: your-database-name
+    envVars:
+      - key: SEARXNG_HOSTNAME
+        value: http://localhost:80
+      - key: LETSENCRYPT_EMAIL
+        value: internal
+      - key: SEARXNG_BASE_URL
+        value: https://localhost/

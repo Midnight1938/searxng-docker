@@ -1,0 +1,11 @@
+# Dockerfile for Redis
+FROM docker.io/library/redis:alpine
+
+# Command to run Redis
+CMD ["redis-server", "--save", "30", "1", "--loglevel", "warning"]
+
+# Define volume
+VOLUME /data
+
+# Drop and add capabilities
+RUN setcap cap_setgid,cap_setuid,cap_dac_override=ep $(which redis-server)

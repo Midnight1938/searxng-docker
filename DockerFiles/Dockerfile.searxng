@@ -1,0 +1,11 @@
+# Dockerfile for Searxng
+FROM searxng/searxng:latest
+
+# Copy Searxng configuration
+COPY ./searxng /etc/searxng
+
+# Set environment variable
+ENV SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
+
+# Drop and add capabilities
+RUN setcap cap_chown,cap_setgid,cap_setuid=ep $(which searxng)

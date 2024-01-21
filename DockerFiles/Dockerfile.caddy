@@ -1,0 +1,19 @@
+# Dockerfile for Caddy
+FROM caddy:2-alpine
+
+# Copy Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
+
+# Define volumes
+VOLUME /data
+VOLUME /config
+
+# Set environment variables
+ENV SEARXNG_HOSTNAME=${SEARXNG_HOSTNAME:-http://localhost:80}
+ENV SEARXNG_TLS=${LETSENCRYPT_EMAIL:-internal}
+
+# Drop and add capabilities
+RUN setcap cap_net_bind_service=+ep $(which caddy)
+
+# Expose ports
+EXPOSE 80
