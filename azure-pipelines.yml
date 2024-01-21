@@ -1,0 +1,13 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: DockerCompose@0
+    inputs:
+      containerregistrytype: 'Container Registry'
+      action: 'Run a Docker Compose command'
+      dockerComposeFile: 'docker-compose.yml'
+      dockerComposeCommand: 'up -d'
