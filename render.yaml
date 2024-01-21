@@ -12,6 +12,10 @@ services:
         fromDatabase:
           name: your-database-name
           property: LETSENCRYPT_EMAIL
+      - key: SEARXNG_BASE_URL
+        fromDatabase:
+          name: your-database-name
+          property: SEARXNG_BASE_URL
     healthCheckPath: /
     disk:
       name: data
