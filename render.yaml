@@ -37,3 +37,13 @@ services:
       name: data
       mountPath: /data
       sizeGB: 10
+
+envVarGroups:
+  - name: your-database-name
+    envVars:
+      - key: SEARXNG_HOSTNAME
+        value: http://localhost:80
+      - key: LETSENCRYPT_EMAIL
+        value: internal
+      - key: SEARXNG_BASE_URL
+        value: https://localhost/
